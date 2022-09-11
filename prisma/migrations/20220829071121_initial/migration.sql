@@ -1,0 +1,51 @@
+-- CreateTable
+CREATE TABLE `School` (
+    `Id` INTEGER NOT NULL AUTO_INCREMENT,
+    `Address` VARCHAR(191) NOT NULL,
+    `Name` VARCHAR(191) NOT NULL,
+    `CreatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `UpdatedAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `School_Name_key`(`Name`),
+    PRIMARY KEY (`Id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Class` (
+    `Id` INTEGER NOT NULL AUTO_INCREMENT,
+    `Name` VARCHAR(191) NOT NULL,
+    `SchoolId` INTEGER NOT NULL,
+
+    UNIQUE INDEX `Class_Name_key`(`Name`),
+    PRIMARY KEY (`Id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Officer` (
+    `Id` INTEGER NOT NULL AUTO_INCREMENT,
+    `Name` VARCHAR(191) NOT NULL,
+    `ClassId` INTEGER NOT NULL,
+    `Major` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`Id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Student` (
+    `Id` INTEGER NOT NULL AUTO_INCREMENT,
+    `Name` VARCHAR(191) NOT NULL,
+    `ClassId` INTEGER NOT NULL,
+    `Age` INTEGER NOT NULL,
+    `Address` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`Id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Class` ADD CONSTRAINT `Class_SchoolId_fkey` FOREIGN KEY (`SchoolId`) REFERENCES `School`(`Id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Officer` ADD CONSTRAINT `Officer_ClassId_fkey` FOREIGN KEY (`ClassId`) REFERENCES `Class`(`Id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Student` ADD CONSTRAINT `Student_ClassId_fkey` FOREIGN KEY (`ClassId`) REFERENCES `Class`(`Id`) ON DELETE RESTRICT ON UPDATE CASCADE;

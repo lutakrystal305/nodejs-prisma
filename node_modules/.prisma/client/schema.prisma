@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = "mysql://root:vanthai305@127.0.0.1:3306/Test-2"
+}
+
+model School {
+  Id  Int @id @default(autoincrement())
+  Address String
+  Name String @unique
+  CreatedAt DateTime @default(now())
+  UpdatedAt DateTime @updatedAt
+  Classes Class[]
+}
+
+model Class {
+  Id Int @id @default(autoincrement())
+  Name String @unique
+  Students Student[]
+  Officers Officer[]
+  School  School @relation(fields: [SchoolId], references: [Id])
+  SchoolId Int
+}
+
+model Officer {
+  Id Int @id @default(autoincrement())
+  Name String
+  Class Class @relation(fields: [ClassId], references: [Id])
+  ClassId Int
+  Major String
+}
+
+model Student {
+  Id Int @id @default(autoincrement())
+  Name String
+  Age Int
+  Address String
+  Class Class @relation(fields: [ClassId], references: [Id])
+  ClassId Int
+}
